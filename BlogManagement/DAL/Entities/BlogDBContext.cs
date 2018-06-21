@@ -9,6 +9,7 @@ namespace BlogManagement.DAL.Entities
         public BlogDBContext()
             : base("name=BlogDBContext")
         {
+
         }
 
         public virtual DbSet<Account> Accounts{ get; set; }
