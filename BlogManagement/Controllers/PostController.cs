@@ -1,5 +1,6 @@
 ﻿using BlogManagement.BLL;
 using BlogManagement.DAL.Entities;
+using BlogManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,50 +11,49 @@ namespace BlogManagement.Controllers
 {
     public class PostController : Controller
     {
-        // GET: Post
-        //public ActionResult Index()
-        //{
-        //    ViewBag.CategoryId = new SelectList(new BlogDBContext().Categories, "CategoryId", "Name");
-        //    return View();
-        //}
-        //[HttpPost]
-        //public ActionResult Create(Post model)
-        //{
-        //    AccountBLL account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-        //    PostBLL post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-        //    model.AccountId = account.getByEmail(User.Identity.Name).AccountId;
-        //    model.CategoryId = 1;
-        //    model.DatePost = DateTime.Now;
-        //    post.Add(model);
-        //    //var strContent = form["txtContent"].ToString();//FormCollection form
-        //    return Redirect("Index");
-        //}
-        public String Image()
-        {
-            //Kiểm tra file upload có tồn tại không
-            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
-            {
-                var fileImg = Request.Files["HelpSectionImages"];
-                // xử lý của bạn
-                // Bạn có thể trả về 1 json đường dẫn ảnh
-                fileImg.SaveAs(Server.MapPath("~/Content/Image/" + fileImg.FileName));
-                return "/Content/Image/" + fileImg.FileName;
-            }
-            return "";
-        }
-        public ActionResult MyProfile()
-        {
-            AccountBLL account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-            PostBLL post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
 
-            ViewBag.lst = post.getPostsByAccountId(account.getByEmail(User.Identity.Name).AccountId);
-            return View();
+        private AccountBLL account;
+        private PostBLL post;
+
+        public PostController()
+        {
+            account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
+            post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
         }
+
+        [HttpPost]
+        public String uploadFile(HttpPostedFileBase image)
+        {
+            image.SaveAs(Server.MapPath("~/Images/" + image.FileName));
+            return "/Images/" + image.FileName;
+        }
+        
         public ActionResult Category(int id)
         {
-            PostBLL post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
             ViewBag.lstCategory = post.getPostByCategoryId(id);
             return View();
+        }
+
+        public ActionResult TimeLine(int? id)
+        {
+            if(id == null)
+            {
+                id = account.getByEmail(User.Identity.Name).AccountId;
+            }
+            IEnumerable<PostModel> lstPost = post.getPostModel().Where(a=>a.AccountId == id);
+            Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
+            foreach (var item in lstPost)
+            {
+                List<CommentModel> commentModels = new List<CommentModel>();
+                foreach (var i in item.Comments)
+                {
+                    CommentModel cmtModel = new CommentModel(i.CommentId, i.AccountId, i.Content, i.CommentTime, i.PostId, post.getUserNameById(i.AccountId));
+                    commentModels.Add(cmtModel);
+                }
+                dic.Add(item.PostId, commentModels);
+            }
+            ViewBag.lstComment = dic;
+            return View(lstPost);
         }
     }
 }

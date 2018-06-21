@@ -8,7 +8,7 @@
     @*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>*@
     <textarea style="width:80%;padding-top:2%;height:100px" data-toggle="modal" data-target="#myModal" class="top" placeholder="Write something here"></textarea>
     <!-- Modal -->
-    <form action="/Home/CreatePostPartial" method="post">
+    <form action="/Home/CreatePostPartial" method="post"  enctype="multipart/form-data">
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
 
@@ -18,7 +18,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Modal Header</h4>
                     </div>
-                    <div class="modal-body" >
+                    <div class="modal-body">
                         <div class="form-group">
                             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -26,7 +26,7 @@
                                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -35,15 +35,16 @@
                             </div>
                         </div>
                         <br />
-                        <div class="form-group" >
+                        <div class="form-group">
                             <div class="col-md-10" style="float:right">
                                 @Html.TextAreaFor(model => model.Content, new { @class = "form-control", cols = "50", rows = "5", placeholder = "Bạn đang nghĩ gì...",
                            style = "margin-bottom:20px"})
                                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="col-md-10" id="upload" enctype="multipart/form-data" style="float:right">
-                            <input type="file" name="fileUpload" id="fileUpload" /><br />
+                        <div class="col-md-10" id="upload" style="float:right; display: flex;">
+                            <input type="file" id="fileUpload" name="fileUpload" accept="image/*" onchange="previewFile();" />
+                            <img id="img" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -58,34 +59,25 @@
 </div>
 <style>
     .modal-body {
-        height: 300px;
+        height: 350px;
         position: relative;
         padding: 15px;
     }
+    #img{
+        /*width: 80px;*/
+        height: 80px;
+    }
 </style>
-<script>
-    $("#fileUpload").change(function () {
-        var data = new FormData();
-        var files = $("#fileUpload").get(0).files;
-        if (files.length > 0) {
-            data.append("HelpSectionImages", files[0]);
-        }
-        $.ajax({
-            url: '@Url.Action("Image", "Post")',
-            type: "POST",
-            processData: false,
-            contentType: false,
-            data: data,
-            success: function (response) {
-                //code xử lý dữ liệu trả về của bạn
-                alert(response);
-                var my_path = "~Image/" + response;
-                //$("#myUploadedImg").attr("src", my_path);
-            },
-            error: function (er) {
-                alert(er);
-            }
 
-        });
-    });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    function previewFile() {
+        var file = $("#fileUpload")[0].files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            $("#img").attr("src", reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
 </script>

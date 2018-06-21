@@ -71,6 +71,7 @@ namespace BlogManagement.BLL
                       from account in uow.accountRepository.getAll()
                       from category in uow.categoryRepository.getAll()
                       where post.AccountId == account.AccountId && post.CategoryId == category.CategoryId
+                      orderby post.DatePost descending
                       select new
                       {
                           post.PostId,
