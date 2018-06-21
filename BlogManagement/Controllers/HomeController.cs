@@ -2,6 +2,7 @@
 using BlogManagement.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,11 +11,14 @@ namespace BlogManagement.Controllers
 {
     public class HomeController : Controller
     {
+
+        AccountBLL account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
+        PostBLL post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
+        CategoryBLL category = new CategoryBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
+
         // GET: Home
         public ActionResult Index()
         {
-            AccountBLL account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-            PostBLL post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
             ViewBag.lst = post.getAll();
             return View();
         }
@@ -25,11 +29,7 @@ namespace BlogManagement.Controllers
         }
         public ActionResult NavLeftPartial()
         {
-            AccountBLL account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-            CategoryBLL category = new CategoryBLL(new DAL.UnitOfWork.UnitOfWork(new DAL.Entities.BlogDBContext()));
-
             ViewBag.lstCategory = category.getAll();
-            //ViewBag.lstCategoryUser = category.get(account.getByEmail(User.Identity.Name).AccountId);
             return PartialView();
         }
         public ActionResult CreatePostPartial()
@@ -38,14 +38,14 @@ namespace BlogManagement.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CreatePostPartial(Post model)
+        public ActionResult CreatePostPartial(Post model, HttpPostedFileBase fileUpload)
         {
-            AccountBLL account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-            PostBLL post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
+            string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(fileUpload.FileName));
+            fileUpload.SaveAs(path);
             model.AccountId = account.getByEmail(User.Identity.Name).AccountId;
             model.DatePost = DateTime.Now;
+            model.Image = fileUpload.FileName;
             post.Add(model);
-            //var strContent = form["txtContent"].ToString();//FormCollection form
             return Redirect("Index");
         }
 
