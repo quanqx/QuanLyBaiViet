@@ -160,7 +160,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\navPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -170,6 +169,8 @@
     <Content Include="Views\Home\CreatePostPartial.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Post\Category.cshtml" />
+    <Content Include="Views\Home\TimeLine.cshtml" />
+    <Content Include="Views\Post\TimeLine.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

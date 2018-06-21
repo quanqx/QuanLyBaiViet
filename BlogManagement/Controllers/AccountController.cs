@@ -40,13 +40,13 @@ namespace BlogManagement.Controllers
                 return View(model);
             }
             FormsAuthentication.SetAuthCookie(model.Email, model.Remember);
-            return Redirect("/Home/Index");
+            return Redirect("/Home/Timeline");
         }
 
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return Redirect("/Home/Index");
+            return Redirect("/Home/Timeline");
         }
 
         public ActionResult Register()

@@ -10,10 +10,10 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="/Home/Index">Trang chủ</a></li>
+                <li><a href="/Home/Timeline">Trang chủ</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a href="/Profile/Timeline">Trang cá nhân</a></li>
+                    <li><a href="/Post/Timeline">Trang cá nhân</a></li>
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">
