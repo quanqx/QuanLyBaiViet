@@ -3,6 +3,8 @@
     var lblVerify = $("#lblVerify");
     var lblRegister = $("#lblRegister");
     var lblEmail = $("#lblEmail");
+    var lblUserName = $("#lblUserName");
+    lblUserName.hide();
     lblEmail.hide();
     lblVerify.hide();
     lblRegister.hide();
@@ -58,6 +60,20 @@
         });
     });
 
+    $("#txtUserName").keyup(function () {
+        checkUserName();
+    });
+
+    function checkUserName() {
+        if ($("#txtUserName").val().length < 6) {
+            lblUserName.show();
+            lblUserName.text("Tên người dùng phải dài hơn 6 kí tự!");
+            return false;
+        }
+        lblUserName.hide();
+        return true;
+    }
+
     function mailIsEmpty() {
         if ($("#txtEmail").val().length == 0)
             return true;
@@ -97,7 +113,7 @@
     })
 
     $("#frmRegister").submit(function (e) {
-        if (!valEmail($("#txtEmail").val()) || !checkPassMatch()) {
+        if (!valEmail($("#txtEmail").val()) || !checkPassMatch() || !checkUserName()) {
             e.preventDefault();
         }
     });
