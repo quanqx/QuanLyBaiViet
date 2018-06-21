@@ -38,11 +38,15 @@ namespace BlogManagement.Controllers
         [HttpPost]
         public ActionResult CreatePost(Post model, HttpPostedFileBase fileUpload)
         {
-            string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(fileUpload.FileName));
-            fileUpload.SaveAs(path);
+            if(fileUpload != null)
+            {
+                string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(fileUpload.FileName));
+                fileUpload.SaveAs(path);
+                model.Image = fileUpload.FileName;
+            }
             model.AccountId = account.getByEmail(User.Identity.Name).AccountId;
             model.DatePost = DateTime.Now;
-            model.Image = fileUpload.FileName;
+            
             post.Add(model);
             return Redirect("Timeline");
         }

@@ -1,7 +1,7 @@
 ﻿<nav class="navbar navbar-inverse navbar-custom">
     <div class="container">
         <div class="navbar-header text-a">
-            <a class="navbar-brand" href="#">Fakebook</a>
+            <a class="navbar-brand" href="/Home/Timeline">Fakebook</a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -13,7 +13,7 @@
                 <li><a href="/Home/Timeline">Trang chủ</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><a href="/Post/Timeline">Trang cá nhân</a></li>
+                    <li><a href="/Profile/Timeline">Trang cá nhân</a></li>
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">

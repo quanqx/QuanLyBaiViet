@@ -28,19 +28,10 @@ namespace BlogManagement.Controllers
             return "/Images/" + image.FileName;
         }
         
-        public ActionResult Category(int id)
-        {
-            ViewBag.lstCategory = post.getPostByCategoryId(id);
-            return View();
-        }
 
-        public ActionResult TimeLine(int? id)
+        public ActionResult Category(int ? idCate)//for Cate
         {
-            if(id == null)
-            {
-                id = account.getByEmail(User.Identity.Name).AccountId;
-            }
-            IEnumerable<PostModel> lstPost = post.getPostModel().Where(a=>a.AccountId == id);
+            IEnumerable<PostModel> lstPost = post.getPostModel().Where(a=>a.CategoryId == idCate);
             Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
             foreach (var item in lstPost)
             {

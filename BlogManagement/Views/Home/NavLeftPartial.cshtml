@@ -3,7 +3,7 @@
     <li style="list-style:none"><a href="/Home/Index">Hiển thị tất cả danh sách</a></li>
     @foreach (BlogManagement.DAL.Entities.Category lst in ViewBag.lstCategory)
     {
-        <li style="list-style:none"><a href="/Post/Category/?id=@lst.CategoryId">@lst.Name</a></li>
+        <li style="list-style:none"><a href="/Post/Category/?idCate=@lst.CategoryId">@lst.Name</a></li>
     }
 
 </ul>
@@ -25,6 +25,7 @@
         }
 
     .menu-left li > a {
+        font-size:20px;
         padding:11px;
         height: 50px;
         display: block;

@@ -30,7 +30,15 @@
         @Html.Action("NavLeftPartial", "Home")
     </div>
     <div class="col-md-10">
-        @Html.Action("CreatePostPartial", "Home")
+        @if (User.Identity.IsAuthenticated == true)
+        {
+            @Html.Action("CreatePostPartial", "Home")
+        }
+        else
+        {
+            <h1>Bạn cần @Html.ActionLink("Đăng nhập","Login","Account") để tham gia với chúng tôi :)) hihi</h1>
+        }
+
         @RenderBody()
     </div>
 </body>
