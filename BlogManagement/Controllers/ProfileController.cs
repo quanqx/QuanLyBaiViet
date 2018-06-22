@@ -2,6 +2,7 @@
 using BlogManagement.DAL.Entities;
 using BlogManagement.DAL.UnitOfWork;
 using BlogManagement.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,9 @@ namespace BlogManagement.Controllers
         }
 
         // GET: Profile
-        public ActionResult TimeLine(int ? id)
+        public ActionResult TimeLine(int ? id,int page =1)
         {
+            int pagesize = 5;
             if (id == null)
             {
                 id = account.getByEmail(User.Identity.Name).AccountId;
@@ -40,7 +42,7 @@ namespace BlogManagement.Controllers
                 dic.Add(item.PostId, commentModels);
             }
             ViewBag.lstComment = dic;
-            return View(lstPost);
+            return View(lstPost.ToPagedList(page, pagesize));
         }
     }
 }

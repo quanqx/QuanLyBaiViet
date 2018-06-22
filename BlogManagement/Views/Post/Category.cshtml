@@ -67,8 +67,8 @@
                 </div>
                 <div class="col-md-11 div-content-user">
                     <p>
-                        @Html.ActionLink(item.UserName, "Timeline", "Post", new { id = item.AccountId })
-                        <span class="glyphicon glyphicon-play"></span> @Html.ActionLink(item.CategoryName, "Category", "Post", new { id = item.CategoryId })
+                        <a href="/Profile/Timeline?id=@item.AccountId">@item.UserName</a>
+                        <span class="glyphicon glyphicon-play"></span><a href="/Post/Category?idCate=@item.CategoryId">@item.CategoryName</a>
                     </p>
                     <p>@item.DatePost</p>
                 </div>

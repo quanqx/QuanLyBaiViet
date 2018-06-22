@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using PagedList;
 namespace BlogManagement.Controllers
 {
     public class HomeController : Controller
@@ -50,8 +50,9 @@ namespace BlogManagement.Controllers
             post.Add(model);
             return Redirect("Timeline");
         }
-        public ActionResult TimeLine()
+        public ActionResult TimeLine(int page = 1)
         {
+            int pagesize = 5;
             IEnumerable<PostModel> lstPost = post.getPostModel();
             Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
             foreach (var item in lstPost)
@@ -65,7 +66,8 @@ namespace BlogManagement.Controllers
                 dic.Add(item.PostId, commentModels);
             }
             ViewBag.lstComment = dic;
-            return View(lstPost);
+            //post.getPostLimit(trang, 5);
+            return View(lstPost.ToPagedList(page, pagesize));
         }
 
 
