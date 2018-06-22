@@ -61,7 +61,7 @@
 <div>
     @foreach (var item in Model)
     {
-        <div style="background-color: aliceblue" class="col-md-10">
+        <div style="background-color: aliceblue" class="col-md-10" id="@item.PostId">
             <div class="col-md-1 div-img-user">
                 <img class="img-user" src="~/Images/user_default.png" />
             </div>
@@ -83,7 +83,7 @@
             }
             <div class="div-input-cmt">
                 <textarea class="cmt" cols="80" rows="2" placeholder="Bình luận...."></textarea>
-                <button class="btn btn-info cmt">Bình luận</button>
+                <button class="btn btn-info cmt" id="btnComment" onclick="alert(@item.PostId);" value="@item.PostId">Bình luận</button>
             </div>
             @if (ViewBag.lstComment != null)
             {
@@ -108,4 +108,19 @@
         </div>
     }
 </div>
+
 @Html.PagedListPager(Model, page => Url.Action("Timeline", new { page }))
+
+<script>
+    $(document).ready(function () {
+
+        function Comment(id) {
+            $.ajax({
+                
+            });
+        }
+
+    });
+</script>
+
+

@@ -24,6 +24,7 @@
         <div class="form-group">
             @Html.TextBoxFor(a => a.UserName, new { @class = "form-control", @id = "txtUserName", @required = "required", @placeholder = "Tên người dùng" })
         </div>
+        <p id="lblUserName" class="text-danger">Message</p>
         <div class="form-group">
             @Html.PasswordFor(a => a.PassWord, new { @class = "form-control", @id = "txtPass", @required = "required", @placeholder = "Mật khẩu" })
         </div>
