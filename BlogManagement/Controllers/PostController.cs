@@ -1,6 +1,7 @@
 ﻿using BlogManagement.BLL;
 using BlogManagement.DAL.Entities;
 using BlogManagement.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,9 @@ namespace BlogManagement.Controllers
         }
         
 
-        public ActionResult Category(int ? idCate)//for Cate
+        public ActionResult Category(int ? idCate, int page =1)//for Cate
         {
+            int pagesize = 5;
             IEnumerable<PostModel> lstPost = post.getPostModel().Where(a=>a.CategoryId == idCate);
             Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
             foreach (var item in lstPost)
@@ -45,7 +47,7 @@ namespace BlogManagement.Controllers
                 dic.Add(item.PostId, commentModels);
             }
             ViewBag.lstComment = dic;
-            return View(lstPost);
+            return View(lstPost.ToPagedList(page, pagesize));
         }
     }
 }
