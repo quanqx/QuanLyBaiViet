@@ -81,8 +81,8 @@
                 </div>
             }
             <div class="div-input-cmt">
-                <textarea class="cmt" cols="80" rows="2" placeholder="Bình luận...."></textarea>
-                <button class="btn btn-info cmt" id="btnComment" onclick="alert(@item.PostId);" value="@item.PostId">Bình luận</button>
+                <textarea class="cmt content-comment-@item.PostId" cols="80" rows="2" placeholder="Bình luận...." ></textarea>
+                <button class="btn btn-info cmt" id="btnComment" onclick="Comment(@item.PostId);" value="@item.PostId">Bình luận</button>
             </div>
             @if (ViewBag.lstComment != null)
             {
@@ -108,14 +108,37 @@
     }
 </div>
 <script>
-    $(document).ready(function () {
 
-        function Comment(id) {
-            $.ajax({
-                
-            });
-        }
+    function Comment(id) {
+        $.ajax({
+            url: "/Comment/Comment",
+            type: "POST",
+            dataType: "json",
+            data: { PostId: id, Content: $(".content-comment-" + id).val() },
+            success: function (data) {
+                AddComment(data);
+            },
+            error: function () {
+                alert("false");
+            }
+        });
+    }
 
-    });
+    function AddComment(data) {
+        var add = '<div>' +
+            '<div class="row user-cmt">' +
+            '<div class="div-img-user-cmt">' +
+            '<img src="/Images/' + data.AccountImage + '" />' +
+            '</div>' +
+            '<div class="div-right-user-cmt">' +
+            '<p>' + data.UserName + '</p>' +
+            '</div>' +
+            '</div>' +
+            '<p>' + data.Content + '</p>' +
+            '</div>';
+
+        $(".div-input-cmt").after(add);
+    }
+
 </script>
 

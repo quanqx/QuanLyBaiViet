@@ -62,6 +62,7 @@ namespace BlogManagement.Controllers
                     CommentModel cmtModel = new CommentModel(i.CommentId, i.AccountId, i.Content, i.CommentTime, i.PostId, post.getUserNameById(i.AccountId));
                     commentModels.Add(cmtModel);
                 }
+                commentModels.OrderByDescending(a => a.CommentTime);
                 dic.Add(item.PostId, commentModels);
             }
             ViewBag.lstComment = dic;

@@ -49,5 +49,10 @@ namespace BlogManagement.BLL
         {
             return uow.commentRepository.getAll().Where(a => a.PostId == id);
         }
+
+        public Account getAccountByEmail(String Email)
+        {
+            return uow.accountRepository.getByEmail(Email);
+        }
     }
 }

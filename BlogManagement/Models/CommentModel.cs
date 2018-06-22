@@ -13,6 +13,7 @@ namespace BlogManagement.Models
         public DateTime CommentTime { get; set; }
         public int PostId { get; set; }
         public String UserName { get; set; }
+        public String AccountImage { get; set; }
 
         public CommentModel(int commentId, int accountId, string content, DateTime commentTime, int postId, string userName)
         {
@@ -22,6 +23,7 @@ namespace BlogManagement.Models
             CommentTime = commentTime;
             PostId = postId;
             UserName = userName;
+            AccountImage = "";
         }
     }
 }
