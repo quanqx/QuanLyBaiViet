@@ -1,4 +1,5 @@
 ﻿using BlogManagement.DAL.Entities;
+using BlogManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace BlogManagement.BLL
         void Add(Comment cmt);
         void Update(Comment cmt);
         void Delete(Comment cmt);
+        IEnumerable<Comment> getCommentByPostId(int id);
+        Dictionary<int, List<CommentModel>> convertCommentModel(IEnumerable<PostModel> lstPost);
     }
 }

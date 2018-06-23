@@ -15,5 +15,6 @@ namespace BlogManagement.BLL
         void Add(Account acc);
         void Update(Account acc);
         void Delete(Account acc);
+        String getUserNameById(int id);
     }
 }

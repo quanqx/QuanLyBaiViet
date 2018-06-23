@@ -50,11 +50,6 @@ namespace BlogManagement.BLL
             return uow.commentRepository.getAll().Where(a => a.PostId == id);
         }
 
-        public Account getAccountByEmail(String Email)
-        {
-            return uow.accountRepository.getByEmail(Email);
-        }
-
         public Dictionary<int, List<CommentModel>> convertCommentModel(IEnumerable<PostModel> lstPost)
         {
             Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
@@ -66,7 +61,7 @@ namespace BlogManagement.BLL
             return dic;
         }
 
-        public IEnumerable<CommentModel> CommentToCommentModel(IEnumerable<Comment> comments)
+        private IEnumerable<CommentModel> CommentToCommentModel(IEnumerable<Comment> comments)
         {
             List<CommentModel> commentModels = new List<CommentModel>();
             foreach (var i in comments)

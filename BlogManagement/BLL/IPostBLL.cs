@@ -18,6 +18,8 @@ namespace BlogManagement.BLL
         IEnumerable<Post> getPostsByAccountId(int id);
         IEnumerable<Post> getPostLimit(int from, int to);
         IEnumerable<PostModel> getPostModel();
+        IEnumerable<Post> getPostByCategoryId(int id);
+        IEnumerable<Post> getPostByCategoryIdAndAccountId(int idCategory, int idAccoutn);
     }
 
 }
