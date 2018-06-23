@@ -24,21 +24,18 @@
 </head>
 <body style="background-color:#f4f3f8">
 
-    <div class="">
+    <div class="navbar-fixed-top">
         @Html.Action("navPartial", "Home")
     </div>
     
-    <div class="col-md-2" style="border:1px solid;border-color:cornflowerblue">
-        @Html.Action("NavLeftPartial", "Home")
-    </div>
-    <div class="col-md-10">
+    <div class="">
         @if (User.Identity.IsAuthenticated == true)
         {
             @Html.Action("CreatePostPartial", "Home")
         }
         else
         {
-            <h1>Bạn cần @Html.ActionLink("Đăng nhập","Login","Account") để tham gia với chúng tôi :)) hihi</h1>
+            <h1 style="position: relative; top: 60px; margin-left: 26.6%;">Bạn cần @Html.ActionLink("Đăng nhập", "Login", "Account") để tham gia với chúng tôi :)) hihi</h1>
         }
 
         @RenderBody()

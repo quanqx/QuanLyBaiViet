@@ -181,6 +181,7 @@
     <Content Include="Views\Home\TimeLine.cshtml" />
     <Content Include="Views\Post\TimeLine.cshtml" />
     <Content Include="Views\Post\Category.cshtml" />
+    <Content Include="Views\Home\ShowPost.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

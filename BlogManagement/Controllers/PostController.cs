@@ -1,5 +1,6 @@
 ﻿using BlogManagement.BLL;
 using BlogManagement.DAL.Entities;
+using BlogManagement.DAL.UnitOfWork;
 using BlogManagement.Models;
 using PagedList;
 using System;
@@ -13,13 +14,15 @@ namespace BlogManagement.Controllers
     public class PostController : Controller
     {
 
+        private UnitOfWork uow;
         private AccountBLL account;
         private PostBLL post;
 
         public PostController()
         {
-            account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-            post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
+            uow = new UnitOfWork(new BlogDBContext());
+            account = new AccountBLL(uow);
+            post = new PostBLL(uow);
         }
 
         [HttpPost]
@@ -28,26 +31,6 @@ namespace BlogManagement.Controllers
             image.SaveAs(Server.MapPath("~/Images/" + image.FileName));
             return "/Images/" + image.FileName;
         }
-        
 
-        public ActionResult Category(int ? idCate, int page =1)//for Cate
-        {
-            int pagesize = 5;
-            IEnumerable<PostModel> lstPost = post.getPostModel().Where(a=>a.CategoryId == idCate);
-            Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
-            foreach (var item in lstPost)
-            {
-                List<CommentModel> commentModels = new List<CommentModel>();
-                foreach (var i in item.Comments)
-                {
-                    CommentModel cmtModel = new CommentModel(i.CommentId, i.AccountId, i.Content, i.CommentTime, i.PostId, post.getUserNameById(i.AccountId));
-                    commentModels.Add(cmtModel);
-                }
-                commentModels.OrderByDescending(a => a.CommentTime);
-                dic.Add(item.PostId, commentModels);
-            }
-            ViewBag.lstComment = dic;
-            return View(lstPost.ToPagedList(page, pagesize));
-        }
     }
 }

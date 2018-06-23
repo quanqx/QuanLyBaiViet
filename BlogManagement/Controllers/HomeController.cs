@@ -12,16 +12,27 @@ namespace BlogManagement.Controllers
 {
     public class HomeController : Controller
     {
-
-        AccountBLL account = new AccountBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-        PostBLL post = new PostBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-        CategoryBLL category = new CategoryBLL(new DAL.UnitOfWork.UnitOfWork(new BlogDBContext()));
-
-        // GET: Home
-
+        DAL.UnitOfWork.UnitOfWork uow;
+        AccountBLL account;
+        PostBLL post;
+        CategoryBLL category;
+        CommentBLL comment;
+        
+        public HomeController()
+        {
+            uow = new DAL.UnitOfWork.UnitOfWork(new BlogDBContext());
+            account = new AccountBLL(uow);
+            post = new PostBLL(uow);
+            category = new CategoryBLL(uow);
+            comment = new CommentBLL(uow);
+        }
 
         public ActionResult navPartial()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.accountId = account.getByEmail(User.Identity.Name).AccountId;
+            }
             return PartialView();
         }
         public ActionResult NavLeftPartial()
@@ -50,25 +61,33 @@ namespace BlogManagement.Controllers
             post.Add(model);
             return Redirect("Timeline");
         }
-        public ActionResult TimeLine(int page = 1)
+
+        public ActionResult ShowPost(int? accountId, int? categoryId, int page = 1)
         {
             int pagesize = 5;
             IEnumerable<PostModel> lstPost = post.getPostModel();
-            Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
-            foreach (var item in lstPost)
+            IEnumerable<PostModel> res = lstPost;
+            if (accountId == null)
             {
-                List<CommentModel> commentModels = new List<CommentModel>();
-                foreach (var i in item.Comments)
+                if (categoryId != null)
                 {
-                    CommentModel cmtModel = new CommentModel(i.CommentId, i.AccountId, i.Content, i.CommentTime, i.PostId, post.getUserNameById(i.AccountId));
-                    commentModels.Add(cmtModel);
+                    res = lstPost.Where(a => a.CategoryId == categoryId);
                 }
-                commentModels.OrderByDescending(a => a.CommentTime);
-                dic.Add(item.PostId, commentModels);
             }
-            ViewBag.lstComment = dic;
-            //post.getPostLimit(trang, 5);
-            return View(lstPost.ToPagedList(page, pagesize));
+            else
+            {
+                if (categoryId != null)
+                {
+                    res = lstPost.Where(a => a.CategoryId == categoryId && a.AccountId == accountId);
+                }
+                else
+                {
+                    res = lstPost.Where(a => a.AccountId == accountId);
+                }
+            }
+            ViewBag.lstComment = comment.convertCommentModel(res);
+            return View(res.ToPagedList(page, pagesize));
+            
         }
 
 

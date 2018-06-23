@@ -57,8 +57,10 @@
         border: 2px solid blue;
     }
 </style>
-
-<div>
+<div class="col-md-2" style="border:1px solid;border-color:cornflowerblue; top: 60px;">
+    @Html.Action("NavLeftPartial", "Home")
+</div>
+<div class="col-md-9">
     @foreach (var item in Model)
     {
         <div style="background-color: aliceblue; top: 60px;" class="col-md-10" id="@item.PostId">
@@ -67,7 +69,7 @@
             </div>
             <div class="col-md-11 div-content-user">
                 <p>
-                    <a href="/Profile/Timeline?id=@item.AccountId">@item.UserName</a>
+                    @Html.ActionLink(item.UserName, "ShowPost", "Home", new { accountId = item.AccountId }, null)
                     <span class="glyphicon glyphicon-play"></span><a href="/Post/Category?idCate=@item.CategoryId">@item.CategoryName</a>
                 </p>
                 <p>@item.DatePost</p>
@@ -82,7 +84,7 @@
                 </div>
             }
             <div class="div-input-cmt">
-                <textarea class="cmt content-comment-@item.PostId" cols="80" rows="2" placeholder="Bình luận...." id="input-comment" ></textarea>
+                <textarea class="cmt content-comment-@item.PostId" cols="80" rows="2" placeholder="Bình luận...." id="input-comment"></textarea>
                 <button class="btn btn-info cmt" id="btnComment" onclick="Comment(@item.PostId);" value="@item.PostId">Bình luận</button>
             </div>
             @if (ViewBag.lstComment != null)
@@ -157,5 +159,7 @@
     }
 
 </script>
+
+
 
 

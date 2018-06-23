@@ -67,6 +67,10 @@ namespace BlogManagement.BLL
         {
             return getById(id).UserName;
         }
-        
+
+        public static implicit operator AccountBLL(CommentBLL v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

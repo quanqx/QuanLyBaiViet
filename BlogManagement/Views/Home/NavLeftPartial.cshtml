@@ -1,9 +1,17 @@
 ﻿
 <ul class="menu-left">
-    <li style="list-style:none"><a href="/Home/Timeline">Hiển thị tất cả danh sách</a></li>
+    <li style="list-style:none"><a href="/Home/ShowPost">Tất cả chủ đề</a></li>
     @foreach (BlogManagement.DAL.Entities.Category lst in ViewBag.lstCategory)
     {
-        <li style="list-style:none"><a href="/Post/Category/?idCate=@lst.CategoryId">@lst.Name</a></li>
+        if (Request.QueryString["accountId"] == null)
+        {
+            <li style="list-style:none">@Html.ActionLink(lst.Name, "ShowPost", "Home", new { categoryId = lst.CategoryId }, null)</li>
+        }
+        else
+        {
+            <li style="list-style:none">@Html.ActionLink(lst.Name, "ShowPost", "Home", new { accountId = Request.QueryString["accountId"], categoryId = lst.CategoryId }, null)</li>
+        }
+
     }
 
 </ul>
@@ -32,8 +40,6 @@
     }
     .menu-left {
         padding: 0;
-        position:fixed;
-        left:20px;
-        top:80px;
+        position:absolute;
     }
 </style>

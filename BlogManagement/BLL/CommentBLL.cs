@@ -54,5 +54,29 @@ namespace BlogManagement.BLL
         {
             return uow.accountRepository.getByEmail(Email);
         }
+
+        public Dictionary<int, List<CommentModel>> convertCommentModel(IEnumerable<PostModel> lstPost)
+        {
+            Dictionary<int, List<CommentModel>> dic = new Dictionary<int, List<CommentModel>>();
+            foreach (var item in lstPost)
+            {
+                List<CommentModel> commentModels = CommentToCommentModel(item.Comments) as List<CommentModel>;
+                dic.Add(item.PostId, commentModels.OrderByDescending(a => a.CommentTime).ToList());
+            }
+            return dic;
+        }
+
+        public IEnumerable<CommentModel> CommentToCommentModel(IEnumerable<Comment> comments)
+        {
+            List<CommentModel> commentModels = new List<CommentModel>();
+            foreach (var i in comments)
+            {
+                Account acc = uow.accountRepository.getById(i.AccountId);
+                CommentModel cmtModel = new CommentModel(i.CommentId, i.AccountId, i.Content, i.CommentTime, i.PostId, acc.UserName);
+                cmtModel.AccountImage = acc.Image;
+                commentModels.Add(cmtModel);
+            }
+            return commentModels;
+        }
     }
 }

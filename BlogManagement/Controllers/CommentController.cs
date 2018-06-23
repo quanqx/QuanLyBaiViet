@@ -13,23 +13,24 @@ namespace BlogManagement.Controllers
     public class CommentController : Controller
     {
 
+        private UnitOfWork uow;
         private CommentBLL commentBLL;
+        private PostBLL postBLL;
 
         public CommentController()
         {
-            commentBLL = new CommentBLL(new UnitOfWork(new BlogDBContext()));
+            uow = new UnitOfWork(new BlogDBContext());
+            commentBLL = new CommentBLL(uow);
+            postBLL = new PostBLL(uow);
         }
-
-        // GET: Comment
+        
         [HttpPost]
         public ActionResult Comment(int PostId, String Content)
         {
             Account acc = commentBLL.getAccountByEmail(User.Identity.Name);
             Comment cmt = new Comment(1, acc.AccountId, Content, DateTime.Now, PostId);
             commentBLL.Add(cmt);
-            CommentModel model = new CommentModel(1, cmt.AccountId, Content, cmt.CommentTime, PostId, acc.UserName);
-            model.AccountImage = acc.Image;
-            return Json(model);
+            return Json(commentBLL.CommentToCommentModel(commentBLL.getCommentByPostId(PostId)));
         }
     }
 }

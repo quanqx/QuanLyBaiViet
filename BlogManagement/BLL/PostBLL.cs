@@ -111,10 +111,5 @@ namespace BlogManagement.BLL
             }
             return res;
         }
-
-        public String getUserNameById(int id)
-        {
-            return uow.accountRepository.getById(id).UserName;
-        }
     }
 }
