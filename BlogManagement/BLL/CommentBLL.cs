@@ -61,7 +61,7 @@ namespace BlogManagement.BLL
             return dic;
         }
 
-        private IEnumerable<CommentModel> CommentToCommentModel(IEnumerable<Comment> comments)
+        public IEnumerable<CommentModel> CommentToCommentModel(IEnumerable<Comment> comments)
         {
             List<CommentModel> commentModels = new List<CommentModel>();
             foreach (var i in comments)
