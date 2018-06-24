@@ -59,7 +59,7 @@ namespace BlogManagement.Controllers
             model.DatePost = DateTime.Now;
             
             post.Add(model);
-            return Redirect("Timeline");
+            return Redirect("ShowPost");
         }
 
         public ActionResult ShowPost(int? accountId, int? categoryId, int page = 1)
@@ -86,10 +86,21 @@ namespace BlogManagement.Controllers
                 }
             }
             ViewBag.lstComment = comment.convertCommentModel(res);
+            ViewBag.idAcc = account.getByEmail(User.Identity.Name).AccountId;
             return View(res.ToPagedList(page, pagesize));
             
         }
+        public ActionResult UpdatePost(int idPost)
+        {
+            return View(post.get(idPost));
+        }
+        [HttpPost]
+        public ActionResult UpdatePost(Post model)
+        {
+            post.Update(model);
 
+            return RedirectToAction("ShowPost");
+        }
 
     }
 }
