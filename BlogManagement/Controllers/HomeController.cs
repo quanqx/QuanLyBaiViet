@@ -67,6 +67,10 @@ namespace BlogManagement.Controllers
             int pagesize = 5;
             IEnumerable<PostModel> lstPost = post.getPostModel();
             IEnumerable<PostModel> res = lstPost;
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.user = account.getByEmail(User.Identity.Name);
+            }
             if (accountId == null)
             {
                 if (categoryId != null)

@@ -34,5 +34,13 @@ namespace BlogManagement.Controllers
             commentBLL.Add(cmt);
             return Json(commentBLL.CommentToCommentModel(commentBLL.getCommentByPostId(PostId)));
         }
+        
+        public ActionResult removeComment(int commentId)
+        {
+            Comment cmt = commentBLL.get(commentId);
+            if (cmt != null)
+                commentBLL.Delete(cmt);
+            return Redirect("/Home/ShowPost");
+        }
     }
 }
