@@ -2,6 +2,7 @@
 
     var lblLogin = $("#lblLogin");
     lblLogin.hide();
+
     function valEmail(mail) {
         var re = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
         if (re.test(mail))

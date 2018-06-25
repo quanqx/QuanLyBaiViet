@@ -28,14 +28,14 @@
         @Html.Action("navPartial", "Home")
     </div>
     
-    <div class="">
+    <div>
         @if (User.Identity.IsAuthenticated == true)
         {
             @Html.Action("CreatePostPartial", "Home")
         }
         else
         {
-            <h1 style="position: relative; top: 60px; margin-left: 26.6%;">Bạn cần @Html.ActionLink("Đăng nhập", "Login", "Account") để tham gia với chúng tôi :)) hihi</h1>
+            <h2 class="message-login" style="position: relative; top: 60px; margin-left: 26.6%;">@Html.ActionLink("Đăng nhập", "Login", "Account") để tạo bài viết!</h2>
         }
 
         @RenderBody()
