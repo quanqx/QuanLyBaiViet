@@ -1,6 +1,13 @@
 ﻿
 <ul class="menu-left">
-    <li style="list-style:none"><a href="/Home/ShowPost">Tất cả chủ đề</a></li>
+    @if (Request.QueryString["accountId"] == null)
+    {
+    <li style="list-style:none">@Html.ActionLink("Tất cả chủ đề", "ShowPost", "Home")</li>
+    }
+    else
+    {
+    <li style="list-style:none">@Html.ActionLink("Tất cả chủ đề", "ShowPost", "Home", new { accountId = Request.QueryString["accountId"] }, null)</li>
+    }
     @foreach (BlogManagement.DAL.Entities.Category lst in ViewBag.lstCategory)
     {
         if (Request.QueryString["accountId"] == null)

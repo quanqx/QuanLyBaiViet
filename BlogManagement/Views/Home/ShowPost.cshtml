@@ -72,20 +72,17 @@
                     <p style="width: 95%;">
                         @Html.ActionLink(item.UserName, "ShowPost", "Home", new { accountId = item.AccountId }, null)
                         <span class="glyphicon glyphicon-play"></span><a href="/Home/ShowPost?categoryId=@item.CategoryId">@item.CategoryName</a>
-                        @if (ViewBag.user != null)
-                        {
-                            if (ViewBag.user.AccountId == item.AccountId)
-                            {
-                                <a href="/Home/UpdatePost?idPost=@item.PostId" data-toggle="modal" data-target="#modalUpdate">Sửa</a>
-                            }
-                        }
                     </p>
                     @if (ViewBag.user != null)
                     {
+                        if (ViewBag.user.AccountId == item.AccountId)
+                        {
+                            <a style="padding: 0 3px;" href="/Home/UpdatePost?idPost=@item.PostId" data-toggle="modal" data-target="#modalUpdate"><span class="glyphicon glyphicon-edit"></span></a>
+                        }
                         if (ViewBag.user.isAdmin || ViewBag.user.AccountId == item.AccountId)
                         {
-                            <p style="width: 5%;"><a data-toggle="modal" data-target="#removePost"><span class="glyphicon glyphicon-remove"></span></a></p>
-                            <div class="modal fade" id="removePost" role="dialog">
+                            <p style="padding: 0 3px;"><a data-toggle="modal" data-target="#removePost-@item.PostId"><span class="glyphicon glyphicon-remove"></span></a></p>
+                            <div class="modal fade" id="removePost-@item.PostId" role="dialog">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -104,19 +101,24 @@
                 </div>
                 <p>@item.DatePost</p>
             </div>
-            <div>
+            <div class="text-center">
+                <h3 class="text-info">@item.Title</h3>
+            </div>
+            <div style="margin-bottom: 5px;">
                 @item.Content
             </div>
             @if (item.Image != null)
             {
                 <div>
-                    <img style="height: 300px;" src="~/Images/@item.Image" alt="Image" />
+                    <img style="height: 300px; margin-bottom: 10px;" src="~/Images/@item.Image" alt="Image" />
                 </div>
             }
-            <div class="div-input-cmt">
-                <textarea class="cmt content-comment-@item.PostId" cols="80" rows="2" placeholder="Bình luận...." id="input-comment"></textarea>
-                <button class="btn btn-info cmt" id="btnComment" onclick="Comment(@item.PostId);" value="@item.PostId">Bình luận</button>
-            </div>
+            @using (Html.BeginForm("Comment", "Comment", FormMethod.Post))
+            {
+                <input style="display: none;" type="text" value="@item.PostId" name="PostId" />
+                <textarea class="cmt content-comment-@item.PostId input-comment" cols="80" rows="2" placeholder="Bình luận...." id="Content" name="Content"></textarea>
+                <button type="submit" class="btn btn-info cmt" id="btnComment" value="@item.PostId">Bình luận</button>
+            }
             @if (ViewBag.lstComment != null)
             {
                 foreach (var cmt in ViewBag.lstComment[item.PostId])
@@ -132,8 +134,8 @@
                                 {
                                     if (ViewBag.user.AccountId == cmt.AccountId || ViewBag.user.AccountId == item.AccountId)
                                     {
-                                        <p style="width: 5%;"><a data-toggle="modal" data-target="#removeComment"><span class="glyphicon glyphicon-remove"></span></a></p>
-                                        <div class="modal fade" id="removeComment" role="dialog">
+                                        <p style="width: 5%;"><a data-toggle="modal" data-target="#removeComment-@cmt.CommentId"><span class="glyphicon glyphicon-remove"></span></a></p>
+                                        <div class="modal fade" id="removeComment-@cmt.CommentId" role="dialog">
                                             <div class="modal-dialog modal-sm">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -161,8 +163,9 @@
         </div>
     }
 
+    @Html.PagedListPager(Model, page => Url.Action("ShowPost", new { page }))
     <!-- Modal -->
-    <div class="modal fade" id="modalUpdate"  role="dialog">
+    <div class="modal fade" id="modalUpdate" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -173,7 +176,6 @@
     </div>
 </div>
 <div class="clearfix"></div>
-@Html.PagedListPager(Model, page => Url.Action("ShowPost", new { page }))
 <style>
     .modal-body {
         height: 350px;
@@ -185,62 +187,49 @@
 
 <script>
 
-    function Comment(id) {
-        $.ajax({
-            url: "/Comment/Comment",
-            type: "POST",
-            dataType: "json",
-            data: { PostId: id, Content: $(".content-comment-" + id).val() },
-            success: function (data) {
-                RemoveComment();
-                AddComment(data);
-                clearComment();
-            },
-            error: function () {
-                alert("false");
-            }
-        });
-    }
-
-    function RemoveComment() {
-        $(".div-comment").remove();
-    }
-
-    function clearComment() {
-        $("#input-comment").text("");
-    }
-
-    function AddComment(data) {
-        for (var i = 0; i < data.length; i++) {
-            var add = '<div class="div-comment">' +
-                '<div class="row user-cmt">' +
-                '<div class="div-img-user-cmt">' +
-                '<img src="/Images/' + data[i].AccountImage + '" />' +
-                '</div>' +
-                '<div class="div-right-user-cmt">' +
-                '<p>' + data[i].UserName + '</p>' +
-                '</div>' +
-                '</div>' +
-                '<p>' + data[i].Content + '</p>' +
-                '</div>';
-
-            $(".div-input-cmt").after(add);
-        }
-    }
-
-    //function DeletePost(id) {
+    //function Comment(id) {
     //    $.ajax({
-    //        url: "/Post/removePost",
-    //        type: "post",
-    //        data: { postId: id },
-    //        success: function () {
-    //            alert("ok");
+    //        url: "/Comment/Comment",
+    //        type: "POST",
+    //        dataType: "json",
+    //        data: { PostId: id, Content: $(".content-comment-" + id).val() },
+    //        success: function (data) {
+    //            RemoveComment();
+    //            AddComment(data);
+    //            clearComment();
     //        },
     //        error: function () {
-    //            alert(false);
+    //            alert("false");
     //        }
     //    });
     //}
+
+    //function RemoveComment() {
+    //    $(".div-comment").remove();
+    //}
+
+    //function clearComment() {
+    //    $(".input-comment").text("");
+    //}
+
+    //function AddComment(data) {
+    //    for (var i = 0; i < data.length; i++) {
+    //        var add = '<div class="div-comment">' +
+    //            '<div class="row user-cmt">' +
+    //            '<div class="div-img-user-cmt">' +
+    //            '<img src="/Images/' + data[i].AccountImage + '" />' +
+    //            '</div>' +
+    //            '<div class="div-right-user-cmt">' +
+    //            '<p>' + data[i].UserName + '</p>' +
+    //            '</div>' +
+    //            '</div>' +
+    //            '<p>' + data[i].Content + '</p>' +
+    //            '</div>';
+
+    //        $(".div-input-cmt-" + data[i].PostId).after(add);
+    //    }
+    //}
+
 
 </script>
 
