@@ -51,9 +51,9 @@ namespace BlogManagement.Controllers
         {
             if(fileUpload != null)
             {
-                string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(fileUpload.FileName));
-                fileUpload.SaveAs(path);
-                model.Image = fileUpload.FileName;
+                String fileName = genNameImage() + Path.GetExtension(fileUpload.FileName);
+                fileUpload.SaveAs(Server.MapPath("~/Images/" + fileName));
+                model.Image = fileName;
             }
             model.AccountId = account.getByEmail(User.Identity.Name).AccountId;
             model.DatePost = DateTime.Now;
@@ -90,7 +90,6 @@ namespace BlogManagement.Controllers
                 }
             }
             ViewBag.lstComment = comment.convertCommentModel(res);
-            ViewBag.idAcc = account.getByEmail(User.Identity.Name).AccountId;
             return View(res.ToPagedList(page, pagesize));
             
         }
@@ -104,6 +103,19 @@ namespace BlogManagement.Controllers
             post.Update(model);
 
             return RedirectToAction("ShowPost");
+        }
+
+        private String genNameImage()
+        {
+            int Y = DateTime.Now.Year;
+            int M = DateTime.Now.Month;
+            int D = DateTime.Now.Day;
+            int h = DateTime.Now.Hour;
+            int m = DateTime.Now.Minute;
+            int s = DateTime.Now.Second;
+            return Y + "" + (M < 10 ? "0" + M : M + "") + "" + (D < 10 ? "0" + D : D + "") + ""
+                + (h < 10 ? "0" + h : h + "") + "" + (m < 10 ? "0" + m : m + "") + ""
+                + (s < 10 ? "0" + s : s + "") + ".";
         }
 
     }

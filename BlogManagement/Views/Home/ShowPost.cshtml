@@ -68,18 +68,18 @@
                 <img class="img-user" src="~/Images/@item.AccountImage" />
             </div>
             <div class="col-md-11 div-content-user">
-                <p>
-                    @Html.ActionLink(item.UserName, "ShowPost", "Home", new { accountId = item.AccountId }, null)
-                    <span class="glyphicon glyphicon-play"></span><a href="/Post/Category?idCate=@item.CategoryId">@item.CategoryName</a>
-                    @if (@ViewBag.idAcc ==item.AccountId)
-                    {
-                        <a href="/Home/UpdatePost?idPost=@item.PostId" data-toggle="modal" data-target="#modalUpdate">Sửa</a>
-                    }
-                </p>
+                
                 <div style="display: flex;">
                     <p style="width: 95%;">
                         @Html.ActionLink(item.UserName, "ShowPost", "Home", new { accountId = item.AccountId }, null)
-                        <span class="glyphicon glyphicon-play"></span><a href="/Post/Category?idCate=@item.CategoryId">@item.CategoryName</a>
+                        <span class="glyphicon glyphicon-play"></span><a href="/Home/ShowPost?categoryId=@item.CategoryId">@item.CategoryName</a>
+                        @if (ViewBag.user != null)
+                        {
+                            if (ViewBag.user.AccountId == item.AccountId)
+                            {
+                                <a href="/Home/UpdatePost?idPost=@item.PostId" data-toggle="modal" data-target="#modalUpdate">Sửa</a>
+                            }
+                        }
                     </p>
                     @if (ViewBag.user != null)
                     {
