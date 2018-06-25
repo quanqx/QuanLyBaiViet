@@ -98,15 +98,17 @@ namespace BlogManagement.Controllers
             return View(post.get(idPost));
         }
         [HttpPost]
-        public ActionResult UpdatePost(Post model, HttpPostedFileBase fileUpload)
+
+        public ActionResult UpdatePost(Post model, HttpPostedFileBase fileUpload2)
         {
-            if (fileUpload != null)
+            if (fileUpload2 != null)
             {
-                String fileName = genNameImage() + Path.GetExtension(fileUpload.FileName);
-                fileUpload.SaveAs(Server.MapPath("~/Images/" + fileName));
+                String fileName = genNameImage() + Path.GetExtension(fileUpload2.FileName);
+                fileUpload2.SaveAs(Server.MapPath("~/Images/" + fileName));
                 model.Image = fileName;
             }
             post.Update(model);
+            
             return RedirectToAction("ShowPost");
         }
 
