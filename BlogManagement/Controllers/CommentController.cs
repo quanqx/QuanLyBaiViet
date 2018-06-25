@@ -31,7 +31,7 @@ namespace BlogManagement.Controllers
             Account acc = accountBLL.getByEmail(User.Identity.Name);
             Comment cmt = new Comment(1, acc.AccountId, Content, DateTime.Now, PostId);
             commentBLL.Add(cmt);
-            return Json(commentBLL.CommentToCommentModel(commentBLL.getCommentByPostId(PostId)));
+            return Redirect("/Home/ShowPost");
         }
         
         public ActionResult removeComment(int commentId)
