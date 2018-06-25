@@ -1,0 +1,110 @@
+﻿@model IEnumerable<BlogManagement.DAL.Entities.Account>
+
+@{
+    ViewBag.Title = "Index";
+}
+<section class="dashboard-counts section-padding">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Count item widget-->
+            <div class="col-xl-3 col-md-4 col-6">
+                <div style="display:flex">
+                    <i class="glyphicon glyphicon-user" style="font-size:48px;color:green;"></i>
+                    <div style="margin-top:10px;">
+                        <strong class="text-uppercase">Tải khoản</strong><p>Tổng tài khoản</p>
+                        <div><h2>@ViewBag.UserCount</h2></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-4 col-6">
+                <div style="display:flex">
+                    <i class="glyphicon glyphicon-user" style="font-size:48px;color:green;"></i>
+                    <div style="margin-top:10px;">
+                        <strong class="text-uppercase">Tài khoản tích cực nhất</strong><p><a href="/Home/ShowPost?accountId=@ViewBag.AccMax.AccountId">@ViewBag.AccMax.UserName</a></p>
+                        <div><h2>@ViewBag.Max</h2></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PassWord)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isAdmin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailConfirmed)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PassWord)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isAdmin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailConfirmed)
+            </td>
+            <td>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="location.href='@Url.Action("Edit", "Home", new { id = item.AccountId })'">Sửa</button>|
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal-@item.AccountId">Delete</button>
+                <div id="myModal-@item.AccountId" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Xóa tài khoản</h4>
+                            </div>
+                            <div class="modal-body">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="location.href='@Url.Action("Delete", "Home", new { id = item.AccountId })'">Xóa</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Trở về</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<!-- Modal -->
+
+<script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+<script src="~/signalr/hubs"></script>
