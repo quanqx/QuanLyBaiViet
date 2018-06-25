@@ -90,11 +90,10 @@ namespace BlogManagement.Controllers
                 }
             }
             ViewBag.lstComment = comment.convertCommentModel(res);
-            ViewBag.idAcc = account.getByEmail(User.Identity.Name).AccountId;
             return View(res.ToPagedList(page, pagesize));
             
         }
-        public ActionResult UpdatePost(int idPost)
+        public ActionResult UpdatePost(int idPost, HttpPostedFileBase fileUpload)
         {
             return View(post.get(idPost));
         }

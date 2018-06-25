@@ -38,8 +38,8 @@
                         <p id="lblTB" class="text-danger"></p>
                         <div class="form-group">
                             <div class="col-md-10" style="float:right">
-                                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", cols = "50", rows = "5", placeholder = "Bạn đang nghĩ gì...",
-                               style = "margin-bottom:20px",id= "txtContent"})
+                                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", placeholder = "Bạn đang nghĩ gì...",
+                               style = "margin-bottom:20px;width:100%;padding-top:2%;height:100px",id= "txtContent"})
                                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
                         </div>

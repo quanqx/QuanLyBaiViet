@@ -11,9 +11,9 @@ namespace BlogManagement.Data
         protected override void Seed(DAL.Entities.BlogDBContext context)
         {
 
-            context.Accounts.Add(new DAL.Entities.Account() { Email = "minhbeo@gmail.com", PassWord = "111111", isAdmin = false, EmailConfirmed = true, UserName = "MinhFat", Image = "" });
-            context.Accounts.Add(new DAL.Entities.Account() { Email = "quankun@gmail.com", PassWord = "111111", isAdmin = true, EmailConfirmed = true, UserName = "QuanKun", Image = "" });
-            context.Accounts.Add(new DAL.Entities.Account() { Email = "ducanh@gmail.com", PassWord = "111111", isAdmin = true, EmailConfirmed = true, UserName = "AnhDzz", Image = "" });
+            context.Accounts.Add(new DAL.Entities.Account() { Email = "minhbeo@gmail.com", PassWord = "111111", isAdmin = false, EmailConfirmed = true, UserName = "MinhFat", Image = "Bang_999.jpg" });
+            context.Accounts.Add(new DAL.Entities.Account() { Email = "quankun@gmail.com", PassWord = "111111", isAdmin = true, EmailConfirmed = true, UserName = "QuanKun", Image = "BM_ThienHa.png" });
+            context.Accounts.Add(new DAL.Entities.Account() { Email = "ducanh@gmail.com", PassWord = "111111", isAdmin = true, EmailConfirmed = true, UserName = "AnhDzz", Image = "eoBietNoiGi.jpg" });
             context.SaveChanges();
 
             context.Categories.Add(new DAL.Entities.Category() { Name = "Khoa học" });
