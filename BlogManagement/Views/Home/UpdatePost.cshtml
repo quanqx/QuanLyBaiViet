@@ -6,7 +6,7 @@
 }
 
 
-@using (Html.BeginForm("UpdatePost", "Home", FormMethod.Post))
+@using (Html.BeginForm("UpdatePost", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-header">
