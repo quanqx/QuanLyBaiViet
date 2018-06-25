@@ -98,6 +98,7 @@ namespace BlogManagement.Controllers
             return View(post.get(idPost));
         }
         [HttpPost]
+
         public ActionResult UpdatePost(Post model, HttpPostedFileBase fileUpload2)
         {
             if (fileUpload2 != null)
@@ -121,7 +122,7 @@ namespace BlogManagement.Controllers
             int s = DateTime.Now.Second;
             return Y + "" + (M < 10 ? "0" + M : M + "") + "" + (D < 10 ? "0" + D : D + "") + ""
                 + (h < 10 ? "0" + h : h + "") + "" + (m < 10 ? "0" + m : m + "") + ""
-                + (s < 10 ? "0" + s : s + "") + "";
+                + (s < 10 ? "0" + s : s + "");
         }
 
     }
