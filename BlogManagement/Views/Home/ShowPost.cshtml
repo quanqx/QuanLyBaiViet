@@ -163,7 +163,6 @@
         </div>
     }
 
-    @Html.PagedListPager(Model, page => Url.Action("ShowPost", new { page }))
     <!-- Modal -->
     <div class="modal fade" id="modalUpdate" role="dialog">
         <div class="modal-dialog">
@@ -175,7 +174,10 @@
         </div>
     </div>
 </div>
-<div class="clearfix"></div>
+
+<div class="clearfix">
+</div>
+@Html.PagedListPager(Model, page => Url.Action("ShowPost", new { page }))
 <style>
     .modal-body {
         height: 350px;
@@ -187,48 +189,48 @@
 
 <script>
 
-    //function Comment(id) {
-    //    $.ajax({
-    //        url: "/Comment/Comment",
-    //        type: "POST",
-    //        dataType: "json",
-    //        data: { PostId: id, Content: $(".content-comment-" + id).val() },
-    //        success: function (data) {
-    //            RemoveComment();
-    //            AddComment(data);
-    //            clearComment();
-    //        },
-    //        error: function () {
-    //            alert("false");
-    //        }
-    //    });
-    //}
+            //function Comment(id) {
+            //    $.ajax({
+            //        url: "/Comment/Comment",
+            //        type: "POST",
+            //        dataType: "json",
+            //        data: { PostId: id, Content: $(".content-comment-" + id).val() },
+            //        success: function (data) {
+            //            RemoveComment();
+            //            AddComment(data);
+            //            clearComment();
+            //        },
+            //        error: function () {
+            //            alert("false");
+            //        }
+            //    });
+            //}
 
-    //function RemoveComment() {
-    //    $(".div-comment").remove();
-    //}
+            //function RemoveComment() {
+            //    $(".div-comment").remove();
+            //}
 
-    //function clearComment() {
-    //    $(".input-comment").text("");
-    //}
+            //function clearComment() {
+            //    $(".input-comment").text("");
+            //}
 
-    //function AddComment(data) {
-    //    for (var i = 0; i < data.length; i++) {
-    //        var add = '<div class="div-comment">' +
-    //            '<div class="row user-cmt">' +
-    //            '<div class="div-img-user-cmt">' +
-    //            '<img src="/Images/' + data[i].AccountImage + '" />' +
-    //            '</div>' +
-    //            '<div class="div-right-user-cmt">' +
-    //            '<p>' + data[i].UserName + '</p>' +
-    //            '</div>' +
-    //            '</div>' +
-    //            '<p>' + data[i].Content + '</p>' +
-    //            '</div>';
+            //function AddComment(data) {
+            //    for (var i = 0; i < data.length; i++) {
+            //        var add = '<div class="div-comment">' +
+            //            '<div class="row user-cmt">' +
+            //            '<div class="div-img-user-cmt">' +
+            //            '<img src="/Images/' + data[i].AccountImage + '" />' +
+            //            '</div>' +
+            //            '<div class="div-right-user-cmt">' +
+            //            '<p>' + data[i].UserName + '</p>' +
+            //            '</div>' +
+            //            '</div>' +
+            //            '<p>' + data[i].Content + '</p>' +
+            //            '</div>';
 
-    //        $(".div-input-cmt-" + data[i].PostId).after(add);
-    //    }
-    //}
+            //        $(".div-input-cmt-" + data[i].PostId).after(add);
+            //    }
+            //}
 
 
 </script>
