@@ -13,6 +13,9 @@ namespace BlogManagement.Controllers
 {
     public class ProfileController : Controller
     {
+        public void Log()
+        {
 
+        }
     }
 }
