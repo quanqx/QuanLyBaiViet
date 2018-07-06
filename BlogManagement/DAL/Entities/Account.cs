@@ -19,7 +19,6 @@ namespace BlogManagement.DAL.Entities
 
         [Required]
         [StringLength(50, MinimumLength = 6, ErrorMessage = "Username phải dài hơn 6 kí tự!")]
-        [DataType(DataType.EmailAddress)]
         [Display(Name = "UserName")]
         public String UserName { get; set; }
 

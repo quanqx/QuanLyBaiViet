@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+
 namespace BlogManagement.Controllers
 {
     public class HomeController : Controller
@@ -17,7 +18,11 @@ namespace BlogManagement.Controllers
         PostBLL post;
         CategoryBLL category;
         CommentBLL comment;
-        
+        BlogDBContext db = new BlogDBContext();
+        public ActionResult Index()
+        {
+            return View();
+        }
         public HomeController()
         {
             uow = new DAL.UnitOfWork.UnitOfWork(new BlogDBContext());
@@ -25,6 +30,7 @@ namespace BlogManagement.Controllers
             post = new PostBLL(uow);
             category = new CategoryBLL(uow);
             comment = new CommentBLL(uow);
+            
         }
 
         public ActionResult navPartial()
